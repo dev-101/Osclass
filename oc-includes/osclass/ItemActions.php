@@ -1390,7 +1390,7 @@
                             $size = explode('x', osc_normal_dimensions());
                             $img = ImageResizer::fromFile($tmpName)->autoRotate()->resizeTo($size[0], $size[1]);
                             if( osc_is_watermark_text() ) {
-                                $img->doWatermarkText(osc_watermark_text(), osc_watermark_text_color());
+                                $img->doWatermarkText(osc_watermark_text(), osc_watermark_text_color(), osc_watermark_text_size());
                             } else if ( osc_is_watermark_image() ){
                                 $img->doWatermarkImage();
                             }
