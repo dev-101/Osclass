@@ -513,6 +513,10 @@ CREATE TABLE %st_item_description_tmp (
         osc_set_preference('marketURL', 'http://market.osclass.org/api/v2/');
     }
 
+    if(osc_version() < 357) {
+        osc_set_preference('watermark_text_size', '30');
+    }
+
     osc_changeVersionTo(357);
 
     if(!defined('IS_AJAX') || !IS_AJAX) {
