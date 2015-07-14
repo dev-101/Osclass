@@ -125,6 +125,7 @@ INSERT INTO /*TABLE_PREFIX*/t_preference VALUES
     ,('osclass', 'marketCategories', '', 'STRING')
     ,('osclass', 'marketDataUpdate', '0', 'INTEGER')
     ,('osclass', 'watermark_text', '', 'STRING')
+    ,('osclass', 'watermark_text_size', '30', 'STRING')
     ,('osclass', 'watermark_text_color', '', 'STRING')
     ,('osclass', 'watermark_place', 'centre', 'STRING')
     ,('osclass', 'watermark_image', '', 'STRING')
