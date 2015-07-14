@@ -1017,21 +1017,30 @@
     }
 
     /**
-     * Return watermark text color
-     *
-     * @return string
-     */
-    function osc_watermark_text_color() {
-        return getPreference('watermark_text_color');
-    }
-
-    /**
      * Return watermark text
      *
      * @return string
      */
     function osc_watermark_text() {
         return getPreference('watermark_text');
+    }
+
+    /**
+     * Return watermark text size
+     *
+     * @return string
+     */
+    function osc_watermark_text_size() {
+        return getPreference('watermark_text_size');
+    }
+
+    /**
+     * Return watermark text color
+     *
+     * @return string
+     */
+    function osc_watermark_text_color() {
+        return getPreference('watermark_text_color');
     }
 
     /**
