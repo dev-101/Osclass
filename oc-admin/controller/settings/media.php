@@ -53,18 +53,21 @@
                     $forceJPEG         = Params::getParam('force_jpeg');
                     $use_imagick       = Params::getParam('use_imagick');
                     $type_watermark    = Params::getParam('watermark_type');
-                    $watermark_color   = Params::getParam('watermark_text_color');
-                    $watermark_text    = Params::getParam('watermark_text');
+                    $watermark_text       = Params::getParam('watermark_text');
+                    $watermark_text_size  = Params::getParam('watermark_text_size');
+                    $watermark_text_color = Params::getParam('watermark_text_color');
 
                     switch ($type_watermark) {
                         case 'none':
-                            $iUpdated += osc_set_preference('watermark_text_color', '');
                             $iUpdated += osc_set_preference('watermark_text', '');
+                            $iUpdated += osc_set_preference('watermark_text_size', '');
+                            $iUpdated += osc_set_preference('watermark_text_color', '');
                             $iUpdated += osc_set_preference('watermark_image', '');
                         break;
                         case 'text':
-                            $iUpdated += osc_set_preference('watermark_text_color', $watermark_color);
                             $iUpdated += osc_set_preference('watermark_text', $watermark_text);
+                            $iUpdated += osc_set_preference('watermark_text_size', $watermark_text_size);
+                            $iUpdated += osc_set_preference('watermark_text_color', $watermark_text_color);
                             $iUpdated += osc_set_preference('watermark_image', '');
                             $iUpdated += osc_set_preference('watermark_place', Params::getParam('watermark_text_place'));
                         break;
@@ -91,8 +94,9 @@
                                     $error .= _m('There was a problem uploading the watermark image')."<br />";
                                 }
                             }
-                            $iUpdated += osc_set_preference('watermark_text_color', '');
                             $iUpdated += osc_set_preference('watermark_text', '');
+                            $iUpdated += osc_set_preference('watermark_text_size', '');
+                            $iUpdated += osc_set_preference('watermark_text_color', '');
                             $iUpdated += osc_set_preference('watermark_place', Params::getParam('watermark_image_place'));
                         break;
                         default:
