@@ -273,6 +273,12 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-label"><?php _e('Size'); ?></div>
+                        <div class="form-controls">
+                            <input type="text" class="large" name="watermark_text_size" value="<?php echo osc_esc_html( osc_watermark_text_size() ); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-label"><?php _e('Color'); ?></div>
                         <div class="form-controls">
                             <input type="text" maxlength="6" id="colorpickerField" class="small" name="watermark_text_color" value="<?php echo osc_esc_html( osc_watermark_text_color() ); ?>" />
