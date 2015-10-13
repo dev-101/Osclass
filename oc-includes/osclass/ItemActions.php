@@ -145,9 +145,13 @@
                 ((((time() - Session::newInstance()->_get('last_submit_item')) < osc_items_wait_time()) && !$this->is_admin) ? _m("Too fast. You should wait a little to publish your ad.") . PHP_EOL : '' );
 
             $_meta = Field::newInstance()->findByCategory($aItem['catId']);
-            $meta = Params::getParam("meta");
 
             foreach($_meta as $_m) {
+                if($_m['e_type'] == 'URL') {
+                    $meta = Params::getParam("meta", false, false);
+                } else {
+                    $meta = Params::getParam("meta");
+                }
                 $meta[$_m['pk_i_id']] = (isset($meta[$_m['pk_i_id']]))?$meta[$_m['pk_i_id']]:'';
             }
 
@@ -350,10 +354,16 @@
                 ((!osc_validate_max($aItem['address'], 100)) ? _m("Address too long.") . PHP_EOL : '' );
 
             $_meta = Field::newInstance()->findByCategory($aItem['catId']);
-            $meta = Params::getParam("meta");
+
             foreach($_meta as $_m) {
+                if($_m['e_type'] == 'URL') {
+                    $meta = Params::getParam("meta", false, false);
+                } else {
+                    $meta = Params::getParam("meta");
+                }
                 $meta[$_m['pk_i_id']] = (isset($meta[$_m['pk_i_id']]))?$meta[$_m['pk_i_id']]:'';
             }
+
             if($meta!='' && count($meta)>0) {
                 $mField = Field::newInstance();
                 foreach($meta as $k => $v) {
