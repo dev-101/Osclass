@@ -55,22 +55,17 @@
                 }
             }
 
-            $qqfiles = glob(osc_content_path().'uploads/temp/qqfile_*');
-            if(is_array($qqfiles)) {
-                foreach($qqfiles as $qqfile) {
-                    if((time()-filectime($qqfile))>(2*3600)) {
-                        @unlink($qqfile);
+			$qqprefixes = array('qqfile_*', 'auto_qqfile_*');
+			foreach ($qqprefixes as $qqprefix) {
+                $qqfiles = glob(osc_content_path().'uploads/temp/'.$qqprefix);
+                if(is_array($qqfiles)) {
+                    foreach($qqfiles as $qqfile) {
+                        if((time()-filemtime($qqfile))>(2*3600)) {
+                            @unlink($qqfile);
+                        }
                     }
                 }
-            }
-            $auto_qqfiles = glob(osc_content_path().'uploads/temp/auto_qqfile_*');
-            if(is_array($auto_qqfiles)) {
-                foreach($auto_qqfiles as $auto_qqfile) {
-                    if((time()-filectime($auto_qqfile))>(2*3600)) {
-                        @unlink($auto_qqfile);
-                    }
-                }
-            }
+			}
 
             osc_run_hook('cron_hourly');
         }
