@@ -257,6 +257,7 @@
                     $this->addLevel($l);
                 break;
                 case('page'):
+                    osc_reset_static_pages();
                     $l = array('title' => osc_static_page_title());
                     $this->addLevel($l);
                 break;
