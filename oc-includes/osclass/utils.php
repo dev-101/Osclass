@@ -254,7 +254,7 @@ function osc_doRequest($url, $_data) {
         // open a socket connection on port 80
         // use localhost in case of issues with NATs (hairpinning)
         $fp = @fsockopen($host, 80);
-        
+
         if($fp===false) { return false; };
 
         $data = http_build_query($_data);
@@ -475,8 +475,8 @@ function osc_mailBeauty($text, $params) {
         osc_base_url(),
         osc_page_title(),
         '<a href="' . osc_base_url() . '">' . osc_page_title() . '</a>',
-		date(osc_date_format()?osc_date_format():'Y-m-d').' '.date(osc_time_format()?osc_time_format():'H:i:s'),
-		date(osc_time_format()?osc_time_format():'H:i'),
+        date(osc_date_format()?osc_date_format():'Y-m-d').' '.date(osc_time_format()?osc_time_format():'H:i:s'),
+        date(osc_time_format()?osc_time_format():'H:i'),
         Params::getServerParam('REMOTE_ADDR')
     );
     $text = str_ireplace($kwords, $rwords, $text);
@@ -773,7 +773,7 @@ function download_fsockopen($sourceFile, $fileout = null, $post_data = null)
     if (empty($link))
         $link .= '/';
 
-    $fp = @fsockopen($host, 80, $errno, $errstr, 30);
+    $fp = @fsockopen($host, 80, $errno, $errstr, 1);
     if (!$fp) {
         return false;
     } else {
@@ -789,10 +789,17 @@ function download_fsockopen($sourceFile, $fileout = null, $post_data = null)
         fwrite($fp, $out);
 
         $contents = '';
-        while (!feof($fp)) {
+        stream_set_timeout($fp, 1);
+        stream_set_blocking($fp, false);
+        $status = socket_get_status($fp);
+        while (!feof($fp) && !$status['timed_out']) {
             $contents.= fgets($fp, 1024);
+            $status = socket_get_status($fp);
         }
-
+        if ($status['timed_out']) {
+            error_log('Osclass Market connection timed out.');
+            return false;
+        }
         fclose($fp);
 
         // check redirections ?
@@ -847,7 +854,8 @@ function osc_downloadFile($sourceFile, $downloadedFile, $post_data = null)
         $fp = @fopen (osc_content_path() . 'downloads/' . $downloadedFile, 'w+');
         if($fp) {
             $ch = curl_init($sourceFile);
-            @curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
             curl_setopt($ch, CURLOPT_USERAGENT, Params::getServerParam('HTTP_USER_AGENT') . ' Osclass (v.' . osc_version() . ')');
             curl_setopt($ch, CURLOPT_FILE, $fp);
             @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -883,7 +891,8 @@ function osc_file_get_contents($url, $post_data = null)
     if( testCurl() ) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        @curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, Params::getServerParam('HTTP_USER_AGENT') . ' Osclass (v.' . osc_version() . ')');
         if( !defined('CURLOPT_RETURNTRANSFER') ) define('CURLOPT_RETURNTRANSFER', 1);
         @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -1531,7 +1540,6 @@ function osc_update_cat_stats_id($id)
     $category  = Category::newInstance()->findByPrimaryKey($id);
 
     if( count($aCategories) > 0 ) {
-        // sumar items de la categoría
         foreach($aCategories as $subcategory) {
             $total     = Item::newInstance()->numItems($subcategory, true, true);
             $categoryTotal += $total;
