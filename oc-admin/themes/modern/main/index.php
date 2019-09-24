@@ -279,31 +279,6 @@
         }
 
     </style>
-    <div class="grid-row grid-first-row grid-50">
-        <div class="row-wrapper">
-            <div class="widget-box  widget-box-project">
-                <div class="widget-box-title"><h3><?php _e('Featured products'); ?></h3></div>
-                <div class="widget-box-content widget-box-content-no-wrapp">
-                    <?php foreach($aFeatured['themes'] as $p) {
-                        drawMarketItem($p);
-                    } ?>
-                    <?php foreach($aFeatured['plugins'] as $p) {
-                        drawMarketItem($p);
-                    } ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="grid-row grid-50">
-        <div class="row-wrapper">
-            <div class="widget-box">
-                <div class="widget-box-title"><h3><?php _e('Market'); ?></h3></div>
-                <div class="widget-box-content widget-box-content-no-wrapp">
-                    <div id="banner_market"></div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="clear"></div>
 </div>
 </div>
