@@ -84,10 +84,12 @@
 
                                     // market featured products
                                     $aFeatured = array();
-                                    $out_featured = osc_file_get_contents(osc_market_featured_url('plugins', 3));
+                                    $out_featured = '';
+                                    //$out_featured = osc_file_get_contents(osc_market_featured_url('plugins', 3));
                                     $array_featured_plugins = (array) json_decode($out_featured, true);
 
-                                    $out_featured = osc_file_get_contents(osc_market_featured_url('themes', 3));
+                                    $out_featured = '';
+                                    //$out_featured = osc_file_get_contents(osc_market_featured_url('themes', 3));
                                     $array_featured_themes = (array) json_decode($out_featured, true);
 
 
